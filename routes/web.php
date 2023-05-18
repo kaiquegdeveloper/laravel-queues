@@ -20,3 +20,16 @@ Route::get('/', function () {
 Route::get('/send-jobs', function (){
     \App\Jobs\TestJobs::dispatch();
 });
+
+
+Route::get('send-batch', function (){
+    \Illuminate\Support\Facades\Bus::batch([
+        new \App\Jobs\OneJob(),
+        new \App\Jobs\SecondJob(),
+        new \App\Jobs\BatchJob()
+    ])
+        ->name('Run Batch Example '. rand(1,100))
+        ->dispatch();
+
+    return redirect('/');
+});
